@@ -14,7 +14,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import UIKit
+import Foundation
 
 public class Warehouse: NSObject {
     public enum DirectoryType {
