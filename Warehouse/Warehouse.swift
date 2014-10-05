@@ -1,0 +1,150 @@
+//
+//  Warehouse.swift
+//  Warehouse
+//
+//  Created by Muukii on 10/5/14.
+//  Copyright (c) 2014 Muukii. All rights reserved.
+//
+
+import UIKit
+
+public class Warehouse: NSObject {
+    public enum DirectoryType {
+        case Document
+        case Cache
+        case Temporary
+        
+        func Path() -> String {
+            switch self {
+            case .Document:
+                return Warehouse.documentDirectoryPath()
+            case .Cache:
+                return Warehouse.cacheDirectoryPath()
+            case .Temporary:
+                return Warehouse.temporaryDirectoryPath()
+            }
+        }
+    }
+    
+    public var fileManager: NSFileManager = NSFileManager.defaultManager()
+    public var directoryType: DirectoryType = DirectoryType.Temporary
+    
+    public var subDirectoryPath: String? {
+        get {
+            return _subDirectoryPath
+        }
+        set (path) {
+            // "Test" -> "/Test"
+            if var path = path {
+                if path.hasPrefix("/") {
+                } else {
+                    path = "/" + path
+                }
+                
+                if path.hasSuffix("/") {
+                    path = path.substringToIndex(path.endIndex.predecessor())
+                } else {
+                    
+                }
+                _subDirectoryPath = path
+            } else {
+                _subDirectoryPath = ""
+            }
+        }
+    }
+    
+    private var _subDirectoryPath: String?
+    
+    public override init() {
+        super.init()
+    }
+    
+    public func saveFileAndWait(#savePath: String, contents: NSData) -> Bool{
+        println("\(savePath)")
+        let directoryPath = savePath.stringByDeletingLastPathComponent
+        println(directoryPath)
+        var error: NSError?
+        if self.fileManager.createDirectoryAtPath(directoryPath, withIntermediateDirectories: true, attributes: nil, error: &error) {
+            if error == nil {
+                // Success create directory
+                if self.fileManager.fileExistsAtPath(savePath) {
+                    
+                }
+                if self.fileManager.createFileAtPath(savePath, contents: contents, attributes: nil) {
+                    println("success")
+                    return true
+                } else {
+                    println("failure")
+                    return false
+                }
+            } else {
+                println(error)
+                return false
+            }
+        } else {
+            println("Failed create directory")
+            return false
+        }
+        
+    }
+    
+    
+    public func saveFile(#fileName: String, contents: NSData,
+        success :((savedRelativePath: String?) -> Void)?, faiure:((error: NSError?) -> Void)?) {
+        let subDirectoryPath = self.subDirectoryPath ?? ""
+        let path = self.directoryType.Path() + "\(subDirectoryPath)/" + fileName
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), { () -> Void in
+                let result: Bool = self.saveFileAndWait(savePath: path, contents: contents)
+                if result {
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        let relativePath = Warehouse.translateAbsoluteToRelative(path)
+                        success?(savedRelativePath: relativePath)
+                        return
+                    })
+                } else {
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        faiure?(error: nil)
+                        return
+                    })
+                }
+            })
+    }
+    
+    public class func homeDirectoryPath() -> String {
+        return NSHomeDirectory()
+    }
+    
+    public class func temporaryDirectoryPath() -> String{
+        var path = NSTemporaryDirectory()
+        if path.hasSuffix("/") {
+            path = path.substringToIndex(path.endIndex.predecessor())
+        }
+        return path
+    }
+    
+    public class func documentDirectoryPath() -> String {
+        let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
+        return paths.first as String
+    }
+    
+    public class func cacheDirectoryPath() -> String {
+        let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true)
+        return paths.first as String
+    }
+    
+    public class func translateAbsoluteToRelative(path :String) -> String {
+        if path.hasPrefix(self.homeDirectoryPath()) {
+            return path.stringByReplacingOccurrencesOfString(self.homeDirectoryPath(), withString: "", options: nil, range: nil)
+        } else {
+            return path
+        }
+    }
+    
+    public class func translateRelativeToAbsolute(path :String) -> String{
+        if path.hasPrefix(self.homeDirectoryPath()) {
+            return path
+        } else {
+            return self.homeDirectoryPath() + path
+        }
+    }
+}

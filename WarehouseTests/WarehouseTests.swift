@@ -21,11 +21,6 @@ class WarehouseTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        XCTAssert(true, "Pass")
-    }
-    
     func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measureBlock() {
@@ -33,4 +28,49 @@ class WarehouseTests: XCTestCase {
         }
     }
     
+    func testDocumentDirectoryPath() {
+       let path = Warehouse.documentDirectoryPath()
+        println("DocumentDirectoryPath : \(path)")
+        XCTAssert(path.hasSuffix("Documents"), "")
+    }
+    
+    func testCacheDirectoryPath() {
+        let path = Warehouse.cacheDirectoryPath()
+        println("CacheDirectoryPath : \(path)")
+        XCTAssert(path.hasSuffix("Caches"), "")
+    }
+    
+    func testRootDirectoryPath() {
+        let path = Warehouse.homeDirectoryPath()
+        println(path)
+    }
+    
+    func testTranslateAbsoluteToRelative() {
+        let path = Warehouse.translateAbsoluteToRelative(Warehouse.documentDirectoryPath())
+        XCTAssert((path == "/Documents"), "")
+        println(path)
+    }
+    
+    func testTranslateRelativeToAbsolute() {
+        let path = Warehouse.translateRelativeToAbsolute("/Documents")
+        let answer = NSHomeDirectory() + "/Documents"
+        XCTAssert(path == answer, "")
+    }
+    
+    func testSubDirectoryPath() {
+        let warehouse = Warehouse()
+        warehouse.subDirectoryPath = "/Test/Test"
+        XCTAssert(warehouse.subDirectoryPath == "/Test/Test", "")
+        
+        warehouse.subDirectoryPath = "Test/Test"
+        
+        XCTAssert(warehouse.subDirectoryPath == "/Test/Test", "")
+        
+        warehouse.subDirectoryPath = "Test/Test/"
+        XCTAssert(warehouse.subDirectoryPath == "/Test/Test", "")
+        
+        warehouse.subDirectoryPath = "/Test/Test/"
+        XCTAssert(warehouse.subDirectoryPath == "/Test/Test", "")
+        
+    }
 }

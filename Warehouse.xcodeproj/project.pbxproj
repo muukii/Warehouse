@@ -10,6 +10,8 @@
 		4BEBD97A19E0556100C2D1AF /* Warehouse.h in Headers */ = {isa = PBXBuildFile; fileRef = 4BEBD97919E0556100C2D1AF /* Warehouse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4BEBD98019E0556100C2D1AF /* Warehouse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BEBD97419E0556100C2D1AF /* Warehouse.framework */; };
 		4BEBD98719E0556100C2D1AF /* WarehouseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEBD98619E0556100C2D1AF /* WarehouseTests.swift */; };
+		4BEBD99119E055F100C2D1AF /* Warehouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEBD99019E055F100C2D1AF /* Warehouse.swift */; };
+		4BEBD99219E055F100C2D1AF /* Warehouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEBD99019E055F100C2D1AF /* Warehouse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +31,7 @@
 		4BEBD97F19E0556100C2D1AF /* WarehouseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WarehouseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BEBD98519E0556100C2D1AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4BEBD98619E0556100C2D1AF /* WarehouseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarehouseTests.swift; sourceTree = "<group>"; };
+		4BEBD99019E055F100C2D1AF /* Warehouse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Warehouse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				4BEBD97919E0556100C2D1AF /* Warehouse.h */,
+				4BEBD99019E055F100C2D1AF /* Warehouse.swift */,
 				4BEBD97719E0556100C2D1AF /* Supporting Files */,
 			);
 			path = Warehouse;
@@ -209,6 +213,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4BEBD99119E055F100C2D1AF /* Warehouse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -217,6 +222,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4BEBD98719E0556100C2D1AF /* WarehouseTests.swift in Sources */,
+				4BEBD99219E055F100C2D1AF /* Warehouse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -319,6 +325,7 @@
 		4BEBD98B19E0556100C2D1AF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -328,12 +335,14 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		4BEBD98C19E0556100C2D1AF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
