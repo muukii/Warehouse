@@ -75,14 +75,20 @@ public class Warehouse: NSObject {
         if self.fileManager.createDirectoryAtPath(directoryPath, withIntermediateDirectories: true, attributes: nil, error: &error) {
             if error == nil {
                 // Success create directory
-                if self.fileManager.fileExistsAtPath(savePath) {
-                    
-                }
+//                if self.fileManager.fileExistsAtPath(savePath) {
+//                    let fileHandle = NSFileHandle(forWritingAtPath: savePath)
+//                    fileHandle?.seekToEndOfFile()
+//                    fileHandle?.writeData(contents)
+//                    fileHandle?.closeFile()
+//                    println("File overwrite success")
+//                } else {
+//                   
+//                }
                 if self.fileManager.createFileAtPath(savePath, contents: contents, attributes: nil) {
-                    println("success")
+                    println("File create success")
                     return true
                 } else {
-                    println("failure")
+                    println("File create failure")
                     return false
                 }
             } else {
@@ -129,6 +135,12 @@ public class Warehouse: NSObject {
         } else {
             return nil
         }
+    }
+    
+    public func openFile(#relativePath: String) -> NSData? {
+        let absolutePath = Warehouse.translateRelativeToAbsolute(relativePath)
+        let data = NSData(contentsOfFile: absolutePath)
+        return data
     }
     
     public class func homeDirectoryPath() -> String {
