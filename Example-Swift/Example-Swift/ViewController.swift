@@ -17,7 +17,6 @@ class ViewController: UIViewController {
         var path = Warehouse.documentDirectoryPath()
         path = path + "/hey2/hey2.txt"
         let warehouse = Warehouse()
-        warehouse.saveFileAndWait(savePath: path, contents: NSData())
         warehouse.subDirectoryPath = "/Test"
     
         warehouse.saveFile(fileName: "Muukii", contents: NSData(), success: { (savedRelativePath) -> Void in
