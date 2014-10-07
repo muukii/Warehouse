@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		4BEBD97A19E0556100C2D1AF /* Warehouse.h in Headers */ = {isa = PBXBuildFile; fileRef = 4BEBD97919E0556100C2D1AF /* Warehouse.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4BEBD98019E0556100C2D1AF /* Warehouse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BEBD97419E0556100C2D1AF /* Warehouse.framework */; };
 		4BEBD98719E0556100C2D1AF /* WarehouseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEBD98619E0556100C2D1AF /* WarehouseTests.swift */; };
 		4BEBD99119E055F100C2D1AF /* Warehouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEBD99019E055F100C2D1AF /* Warehouse.swift */; };
 		4BEBD99219E055F100C2D1AF /* Warehouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEBD99019E055F100C2D1AF /* Warehouse.swift */; };
@@ -46,7 +45,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4BEBD98019E0556100C2D1AF /* Warehouse.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

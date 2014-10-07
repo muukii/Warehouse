@@ -144,23 +144,35 @@ public class Warehouse: NSObject {
             })
     }
     
-    public func saveFileAndWait(#fileName: String, contents: NSData) -> String? {
-        let subDirectoryPath = self.subDirectoryPath ?? ""
-        let path = self.directoryType.Path() + "\(subDirectoryPath)/" + fileName
-        
-        let result: Bool = self.saveAndWait(savePath: path, contents: contents)
-        if result {
-            let relativePath = Warehouse.translateAbsoluteToRelative(path)
-            return relativePath
+    public func saveFileAndWait(#fileName: String?, contents: NSData?) -> String? {
+        if let fileName = fileName {
+            let subDirectoryPath = self.subDirectoryPath ?? ""
+            let path = self.directoryType.Path() + "\(subDirectoryPath)/" + fileName
+    
+            if let contents = contents {
+                let result: Bool = self.saveAndWait(savePath: path, contents: contents)
+                if result {
+                    let relativePath = Warehouse.translateAbsoluteToRelative(path)
+                    return relativePath
+                } else {
+                    return nil
+                }
+            } else {
+                return nil
+            }
         } else {
             return nil
         }
     }
     
-    public class func openFile(#relativePath: String) -> NSData? {
-        let absolutePath = Warehouse.translateRelativeToAbsolute(relativePath)
-        let data = NSData(contentsOfFile: absolutePath)
-        return data
+    public class func openFile(#relativePath: String?) -> NSData? {
+        if let path = relativePath {
+            let absolutePath = Warehouse.translateRelativeToAbsolute(path)
+            let data = NSData(contentsOfFile: absolutePath)
+            return data
+        } else {
+            return nil
+        }
     }
     
     public class func homeDirectoryPath() -> String {

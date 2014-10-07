@@ -98,7 +98,7 @@ class WarehouseTests: XCTestCase {
 
         XCTAssert(filePath != nil, "")
 
-        let openData = warehouse.openFile(relativePath: filePath!)
+        let openData = Warehouse.openFile(relativePath: filePath!)
 
         println("Opened file : \(openData)")
         println("Opened file size : \(openData!.length)")
@@ -122,7 +122,7 @@ class WarehouseTests: XCTestCase {
         
         XCTAssert(firstFilePath != nil, "")
         
-        let firstOpenData = warehouse.openFile(relativePath: firstFilePath!)
+        let firstOpenData = Warehouse.openFile(relativePath: firstFilePath!)
         
         println("Opened file : \(firstOpenData)")
         println("Opened file size : \(firstOpenData!.length)")
@@ -142,7 +142,7 @@ class WarehouseTests: XCTestCase {
         
         XCTAssert(secondFilePath != nil, "")
         
-        let secondOpenData = warehouse.openFile(relativePath: secondFilePath!)
+        let secondOpenData = Warehouse.openFile(relativePath: secondFilePath!)
         
         println("Opened file : \(secondOpenData)")
         println("Opened file size : \(secondOpenData!.length)")
