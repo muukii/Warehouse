@@ -146,9 +146,7 @@ public class Warehouse: NSObject {
     
     public func saveFileAndWait(#fileName: String?, contents: NSData?) -> String? {
         if let fileName = fileName {
-            let subDirectoryPath = self.subDirectoryPath ?? ""
-            let path = self.directoryType.Path() + "\(subDirectoryPath)/" + fileName
-    
+            let path = self.saveDirectoryAbsolutePath() + fileName
             if let contents = contents {
                 let result: Bool = self.saveAndWait(savePath: path, contents: contents)
                 if result {
@@ -163,6 +161,12 @@ public class Warehouse: NSObject {
         } else {
             return nil
         }
+    }
+    
+    public func saveDirectoryAbsolutePath() -> String {
+        let subDirectoryPath = self.subDirectoryPath ?? ""
+        let absolutePath = self.directoryType.Path() + "\(subDirectoryPath)/"
+        return absolutePath
     }
     
     public class func openFile(#relativePath: String?) -> NSData? {
