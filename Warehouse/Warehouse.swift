@@ -74,17 +74,17 @@ public class Warehouse: NSObject {
         self.directoryType = directoryType
     }
     
-    class func warehouseForDocument() -> Warehouse {
+    public class func warehouseForDocument() -> Warehouse {
         let warehouse = Warehouse(directoryType: DirectoryType.Document)
         return warehouse
     }
     
-    class func warehouseForCache() -> Warehouse {
+    public class func warehouseForCache() -> Warehouse {
         let warehouse = Warehouse(directoryType: DirectoryType.Cache)
         return warehouse
     }
     
-    class func warehouseForTemporary() -> Warehouse {
+    public class func warehouseForTemporary() -> Warehouse {
         let warehouse = Warehouse(directoryType: DirectoryType.Temporary)
         return warehouse
     }
