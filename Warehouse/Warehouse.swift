@@ -190,6 +190,15 @@ public class Warehouse: NSObject {
         }
     }
     
+    public class func fileExistsAtPath(#relativePath: String?) -> Bool {
+        if let path = relativePath {
+            let absolutePath = Warehouse.translateRelativeToAbsolute(path)
+            return NSFileManager.defaultManager().fileExistsAtPath(absolutePath)
+        } else {
+            return false
+        }
+    }
+    
     public class func homeDirectoryPath() -> String {
         return NSHomeDirectory()
     }

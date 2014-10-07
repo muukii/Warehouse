@@ -30,8 +30,8 @@ class WarehouseTests: XCTestCase {
     
     func testSavePerformance() {
         let warehouse = Warehouse()
-        let data = NSData(contentsOfURL: NSURL(string: "https://fbcdn-sphotos-g-a.akamaihd.net/hphotos-ak-xap1/v/t1.0-9/10635872_760086720719014_7112759901763456857_n.jpg?oh=a17286d5c433502820cf148a7692ef2a&oe=54B9041F&__gda__=1417884355_5f6ee424afa59c50382017bf76a9f947"))
-        println("Save data size : \(data.length)")
+        let data = NSData(contentsOfURL: NSURL(string: "https://fbcdn-sphotos-g-a.akamaihd.net/hphotos-ak-xap1/v/t1.0-9/10635872_760086720719014_7112759901763456857_n.jpg?oh=a17286d5c433502820cf148a7692ef2a&oe=54B9041F&__gda__=1417884355_5f6ee424afa59c50382017bf76a9f947")!)
+        println("Save data size : \(data!.length)")
         self.measureBlock { () -> Void in
             warehouse.saveFileAndWait(fileName: "Test", contents: data)
             return
@@ -152,6 +152,11 @@ class WarehouseTests: XCTestCase {
         XCTAssert(secondOpenData?.length == secondData?.length, "")
         XCTAssert(secondFilePath == firstFilePath, "")
         XCTAssert(secondOpenData != firstData, "")
+        
+        /**
+        *  File Exist
+        */
+        XCTAssert(Warehouse.fileExistsAtPath(relativePath: secondFilePath), "")
         
     }
 }
