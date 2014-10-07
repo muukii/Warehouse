@@ -67,6 +67,26 @@ public class Warehouse: NSObject {
         super.init()
     }
     
+    public convenience init(directoryType: DirectoryType) {
+        self.init()
+        self.directoryType = directoryType
+    }
+    
+    class func warehouseForDocument() -> Warehouse {
+        let warehouse = Warehouse(directoryType: DirectoryType.Document)
+        return warehouse
+    }
+    
+    class func warehouseForCache() -> Warehouse {
+        let warehouse = Warehouse(directoryType: DirectoryType.Cache)
+        return warehouse
+    }
+    
+    class func warehouseForTemporary() -> Warehouse {
+        let warehouse = Warehouse(directoryType: DirectoryType.Temporary)
+        return warehouse
+    }
+    
     private func saveAndWait(#savePath: String, contents: NSData) -> Bool{
         println("\(savePath)")
         let directoryPath = savePath.stringByDeletingLastPathComponent
@@ -137,7 +157,7 @@ public class Warehouse: NSObject {
         }
     }
     
-    public func openFile(#relativePath: String) -> NSData? {
+    public class func openFile(#relativePath: String) -> NSData? {
         let absolutePath = Warehouse.translateRelativeToAbsolute(relativePath)
         let data = NSData(contentsOfFile: absolutePath)
         return data
