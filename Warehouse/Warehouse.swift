@@ -37,6 +37,8 @@ public class Warehouse: NSObject {
     public var fileManager: NSFileManager = NSFileManager.defaultManager()
     public var directoryType: DirectoryType = DirectoryType.Temporary
     
+    public var saveLogs: [[String:String]]?
+    
     public var subDirectoryPath: String? {
         get {
             return _subDirectoryPath
@@ -87,36 +89,41 @@ public class Warehouse: NSObject {
         return warehouse
     }
     
-    private func saveAndWait(#savePath: String, contents: NSData) -> Bool{
+    private func saveAndWait(#savePath: String, contents: NSData) -> Bool {
+        
+        let createLog: (Bool -> (Void)) = { (success: Bool) -> Void in
+            // log
+            var stateString = success ? "Success" : "Failed"
+            var log = [
+                "State" : stateString,
+                "FilePath" : savePath
+            ]
+            self.saveLogs?.append(log)
+        }
+        
         println("\(savePath)")
         let directoryPath = savePath.stringByDeletingLastPathComponent
         println(directoryPath)
         var error: NSError?
         if self.fileManager.createDirectoryAtPath(directoryPath, withIntermediateDirectories: true, attributes: nil, error: &error) {
             if error == nil {
-                // Success create directory
-//                if self.fileManager.fileExistsAtPath(savePath) {
-//                    let fileHandle = NSFileHandle(forWritingAtPath: savePath)
-//                    fileHandle?.seekToEndOfFile()
-//                    fileHandle?.writeData(contents)
-//                    fileHandle?.closeFile()
-//                    println("File overwrite success")
-//                } else {
-//                   
-//                }
                 if self.fileManager.createFileAtPath(savePath, contents: contents, attributes: nil) {
-                    println("File create success")
+                    println("File create success \(savePath)")
+                    createLog(true)
                     return true
                 } else {
-                    println("File create failure")
+                    println("File create failure \(savePath)")
+                    createLog(false)
                     return false
                 }
             } else {
                 println(error)
+                createLog(false)
                 return false
             }
         } else {
             println("Failed create directory")
+            createLog(false)
             return false
         }
         
@@ -167,6 +174,10 @@ public class Warehouse: NSObject {
         let subDirectoryPath = self.subDirectoryPath ?? ""
         let absolutePath = self.directoryType.Path() + "\(subDirectoryPath)/"
         return absolutePath
+    }
+    
+    public func purgeSaveLogs() {
+        self.saveLogs = nil
     }
     
     public class func openFile(#relativePath: String?) -> NSData? {
