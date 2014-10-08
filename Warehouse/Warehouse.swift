@@ -181,10 +181,14 @@ public class Warehouse: NSObject {
     }
     
     public class func openFile(#relativePath: String?) -> NSData? {
+        
         if let path = relativePath {
-            let absolutePath = Warehouse.translateRelativeToAbsolute(path)
-            let data = NSData(contentsOfFile: absolutePath)
-            return data
+            if let absolutePath = Warehouse.translateRelativeToAbsolute(path) {
+                let data = NSData(contentsOfFile: absolutePath)
+                return data
+            } else {
+                return nil
+            }
         } else {
             return nil
         }
@@ -192,8 +196,11 @@ public class Warehouse: NSObject {
     
     public class func fileExistsAtPath(#relativePath: String?) -> Bool {
         if let path = relativePath {
-            let absolutePath = Warehouse.translateRelativeToAbsolute(path)
-            return NSFileManager.defaultManager().fileExistsAtPath(absolutePath)
+            if let absolutePath = Warehouse.translateRelativeToAbsolute(path) {
+                return NSFileManager.defaultManager().fileExistsAtPath(absolutePath)
+            } else {
+                return false
+            }
         } else {
             return false
         }
@@ -221,19 +228,27 @@ public class Warehouse: NSObject {
         return paths.first as String
     }
     
-    public class func translateAbsoluteToRelative(path :String) -> String {
-        if path.hasPrefix(self.homeDirectoryPath()) {
-            return path.stringByReplacingOccurrencesOfString(self.homeDirectoryPath(), withString: "", options: nil, range: nil)
+    public class func translateAbsoluteToRelative(path :String?) -> String? {
+        if let path = path {
+            if path.hasPrefix(self.homeDirectoryPath()) {
+                return path.stringByReplacingOccurrencesOfString(self.homeDirectoryPath(), withString: "", options: nil, range: nil)
+            } else {
+                return path
+            }
         } else {
-            return path
+            return nil
         }
     }
     
-    public class func translateRelativeToAbsolute(path :String) -> String{
-        if path.hasPrefix(self.homeDirectoryPath()) {
-            return path
+    public class func translateRelativeToAbsolute(path :String?) -> String? {
+        if let path = path {
+            if path.hasPrefix(self.homeDirectoryPath()) {
+                return path
+            } else {
+                return self.homeDirectoryPath() + path
+            }
         } else {
-            return self.homeDirectoryPath() + path
+            return nil
         }
     }
 }
