@@ -74,20 +74,20 @@ public class Warehouse: NSObject {
         self.directoryType = directoryType
     }
     
-    public class func warehouseForDocument() -> Warehouse {
-        let warehouse = Warehouse(directoryType: DirectoryType.Document)
-        return warehouse
+    public func createDirectoryIfNeeded() -> Bool{
+        let directoryPath = self.saveDirectoryAbsolutePath()
+        var error: NSError?
+        if self.fileManager.createDirectoryAtPath(directoryPath, withIntermediateDirectories: true, attributes: nil, error: &error) {
+            if error == nil {
+                return true
+            } else {
+                return false
+            }
+        } else {
+            return false
+        }
     }
-    
-    public class func warehouseForCache() -> Warehouse {
-        let warehouse = Warehouse(directoryType: DirectoryType.Cache)
-        return warehouse
-    }
-    
-    public class func warehouseForTemporary() -> Warehouse {
-        let warehouse = Warehouse(directoryType: DirectoryType.Temporary)
-        return warehouse
-    }
+
     
     private func saveAndWait(#savePath: String, contents: NSData) -> Bool {
         
@@ -100,12 +100,9 @@ public class Warehouse: NSObject {
             ]
             self.saveLogs?.append(log)
         }
-        
-        println("\(savePath)")
-        let directoryPath = savePath.stringByDeletingLastPathComponent
-        println(directoryPath)
+
         var error: NSError?
-        if self.fileManager.createDirectoryAtPath(directoryPath, withIntermediateDirectories: true, attributes: nil, error: &error) {
+        if self.createDirectoryIfNeeded() {
             if error == nil {
                 if self.fileManager.createFileAtPath(savePath, contents: contents, attributes: nil) {
                     println("File create success \(savePath)")
@@ -126,7 +123,6 @@ public class Warehouse: NSObject {
             createLog(false)
             return false
         }
-        
     }
     
     
@@ -180,6 +176,8 @@ public class Warehouse: NSObject {
         self.saveLogs = nil
     }
     
+    // MARK: - Class Methos
+    
     public class func openFile(#relativePath: String?) -> NSData? {
         
         if let path = relativePath {
@@ -205,6 +203,22 @@ public class Warehouse: NSObject {
             return false
         }
     }
+    
+    public class func warehouseForDocument() -> Warehouse {
+        let warehouse = Warehouse(directoryType: DirectoryType.Document)
+        return warehouse
+    }
+    
+    public class func warehouseForCache() -> Warehouse {
+        let warehouse = Warehouse(directoryType: DirectoryType.Cache)
+        return warehouse
+    }
+    
+    public class func warehouseForTemporary() -> Warehouse {
+        let warehouse = Warehouse(directoryType: DirectoryType.Temporary)
+        return warehouse
+    }
+    
     
     public class func homeDirectoryPath() -> String {
         return NSHomeDirectory()
