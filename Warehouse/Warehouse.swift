@@ -37,7 +37,7 @@ public class Warehouse: NSObject {
     public var fileManager: NSFileManager = NSFileManager.defaultManager()
     public var directoryType: DirectoryType = DirectoryType.Temporary
     
-    public var saveLogs: [[String:String]]?
+    public var saveLogs = [[String:String]]()
     
     public var subDirectoryPath: String? {
         get {
@@ -101,23 +101,16 @@ public class Warehouse: NSObject {
                 "State" : stateString,
                 "FilePath" : savePath
             ]
-            self.saveLogs?.append(log)
+            self.saveLogs.append(log)
         }
 
-        var error: NSError?
         if self.createDirectoryIfNeeded() {
-            if error == nil {
-                if self.fileManager.createFileAtPath(savePath, contents: contents, attributes: nil) {
-                    println("File create success \(savePath)")
-                    createLog(true)
-                    return true
-                } else {
-                    println("File create failure \(savePath)")
-                    createLog(false)
-                    return false
-                }
+            if self.fileManager.createFileAtPath(savePath, contents: contents, attributes: nil) {
+                println("File create success \(savePath)")
+                createLog(true)
+                return true
             } else {
-                println(error)
+                println("File create failure \(savePath)")
                 createLog(false)
                 return false
             }
@@ -176,7 +169,7 @@ public class Warehouse: NSObject {
     }
     
     public func purgeSaveLogs() {
-        self.saveLogs = nil
+        self.saveLogs = [[String : String]]()
     }
     
     // MARK: - Class Methos
