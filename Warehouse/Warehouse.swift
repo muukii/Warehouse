@@ -74,16 +74,19 @@ public class Warehouse: NSObject {
         self.directoryType = directoryType
     }
     
-    public func createDirectoryIfNeeded() -> Bool{
+   public func createDirectoryIfNeeded() -> Bool{
         let directoryPath = self.saveDirectoryAbsolutePath()
         var error: NSError?
         if self.fileManager.createDirectoryAtPath(directoryPath, withIntermediateDirectories: true, attributes: nil, error: &error) {
             if error == nil {
+                println("Create Directory Success \(directoryPath)")
                 return true
             } else {
+                println("Create Directory Failed \(directoryPath)")
                 return false
             }
         } else {
+            println("Create Directory Failed \(directoryPath)")
             return false
         }
     }
