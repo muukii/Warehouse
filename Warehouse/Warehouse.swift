@@ -255,7 +255,7 @@ public class Warehouse: NSObject {
             if path.hasPrefix(self.homeDirectoryPath()) {
                 return path
             } else {
-                return self.homeDirectoryPath() + path
+                return self.homeDirectoryPath().stringByAppendingPathComponent(path);
             }
         } else {
             return nil
