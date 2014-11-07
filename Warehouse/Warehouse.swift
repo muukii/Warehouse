@@ -188,10 +188,25 @@ public class Warehouse: NSObject {
         }
     }
     
+    /**
+    File Exists (directory is false)
+    
+    :param: relativePath
+    
+    :returns:
+    */
     public class func fileExistsAtPath(#relativePath: String?) -> Bool {
         if let path = relativePath {
             if let absolutePath = Warehouse.translateRelativeToAbsolute(path) {
-                return NSFileManager.defaultManager().fileExistsAtPath(absolutePath)
+                var isDirectory: Bool
+                var results: Bool
+                results = NSFileManager.defaultManager().fileExistsAtPath(absolutePath, isDirectory: &isDirectory)
+                
+                if results && !isDirectory {
+                    return true
+                } else {
+                    return false
+                }
             } else {
                 return false
             }
