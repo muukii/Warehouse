@@ -5,6 +5,6 @@
       location = "group:Example-Swift/Example-Swift.xcodeproj">
    </FileRef>
    <FileRef
-      location = "container:Warehouse.xcodeproj">
+      location = "group:Warehouse.xcodeproj">
    </FileRef>
 </Workspace>
