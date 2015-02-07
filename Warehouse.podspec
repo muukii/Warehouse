@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 s.name = 'Warehouse'
-s.version = '0.1.0'
+s.version = '0.1.1'
 s.license = 'MIT'
 s.summary = 'You can use easily NSFileManager.'
 s.homepage = 'http://www.muukii.me/'
