@@ -10,8 +10,8 @@
 		4B040DEF1A863335003AC4BD /* Warehouse.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B040DEE1A863335003AC4BD /* Warehouse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4B040DF51A863335003AC4BD /* Warehouse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B040DE91A863335003AC4BD /* Warehouse.framework */; };
 		4B040DFC1A863335003AC4BD /* WarehouseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B040DFB1A863335003AC4BD /* WarehouseTests.swift */; };
-		4B040E0F1A86336A003AC4BD /* Warehouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B040E0E1A86336A003AC4BD /* Warehouse.swift */; };
-		4B040E101A863379003AC4BD /* Warehouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B040E0E1A86336A003AC4BD /* Warehouse.swift */; };
+		4B040E131A863655003AC4BD /* Warehouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B040E121A863655003AC4BD /* Warehouse.swift */; };
+		4B040E141A863664003AC4BD /* Warehouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B040E121A863655003AC4BD /* Warehouse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,7 +31,7 @@
 		4B040DF41A863335003AC4BD /* WarehouseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WarehouseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B040DFA1A863335003AC4BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4B040DFB1A863335003AC4BD /* WarehouseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarehouseTests.swift; sourceTree = "<group>"; };
-		4B040E0E1A86336A003AC4BD /* Warehouse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Warehouse.swift; sourceTree = "<group>"; };
+		4B040E121A863655003AC4BD /* Warehouse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Warehouse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,7 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				4B040DEE1A863335003AC4BD /* Warehouse.h */,
-				4B040E0E1A86336A003AC4BD /* Warehouse.swift */,
+				4B040E111A863655003AC4BD /* Source */,
 				4B040DEC1A863335003AC4BD /* Supporting Files */,
 			);
 			path = Warehouse;
@@ -104,6 +104,14 @@
 				4B040DFA1A863335003AC4BD /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4B040E111A863655003AC4BD /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				4B040E121A863655003AC4BD /* Warehouse.swift */,
+			);
+			path = Source;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -213,7 +221,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4B040E0F1A86336A003AC4BD /* Warehouse.swift in Sources */,
+				4B040E131A863655003AC4BD /* Warehouse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,7 +230,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4B040DFC1A863335003AC4BD /* WarehouseTests.swift in Sources */,
-				4B040E101A863379003AC4BD /* Warehouse.swift in Sources */,
+				4B040E141A863664003AC4BD /* Warehouse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
