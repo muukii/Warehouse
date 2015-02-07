@@ -23,6 +23,12 @@
 import Foundation
 
 public class Warehouse: NSObject {
+    func WHLog(object: AnyObject?) {
+        #if WAREHOUSE_DEBUG
+            println(object)
+        #endif
+    }
+    
     public enum DirectoryType {
         case Document
         case Cache
@@ -85,14 +91,14 @@ public class Warehouse: NSObject {
         var error: NSError?
         if self.fileManager.createDirectoryAtPath(directoryPath, withIntermediateDirectories: true, attributes: nil, error: &error) {
             if error == nil {
-                println("Create Directory Success \(directoryPath)")
+                WHLog("Create Directory Success \(directoryPath)")
                 return true
             } else {
-                println("Create Directory Failed \(directoryPath)")
+                WHLog("Create Directory Failed \(directoryPath)")
                 return false
             }
         } else {
-            println("Create Directory Failed \(directoryPath)")
+            WHLog("Create Directory Failed \(directoryPath)")
             return false
         }
     }
@@ -112,16 +118,16 @@ public class Warehouse: NSObject {
 
         if self.createDirectoryIfNeeded() {
             if self.fileManager.createFileAtPath(savePath, contents: contents, attributes: nil) {
-                println("File create success \(savePath)")
+                WHLog("File create success \(savePath)")
                 createLog(true)
                 return true
             } else {
-                println("File create failure \(savePath)")
+                WHLog("File create failure \(savePath)")
                 createLog(false)
                 return false
             }
         } else {
-            println("Failed create directory")
+            WHLog("Failed create directory")
             createLog(false)
             return false
         }
@@ -221,18 +227,18 @@ public class Warehouse: NSObject {
         }
     }
     
-    public class func warehouseForDocument() -> Warehouse {
-        let warehouse = Warehouse(directoryType: DirectoryType.Document)
+    public class func warehouseForDocument(subDirectoryPath: String?) -> Warehouse {
+        let warehouse = Warehouse(directoryType: DirectoryType.Document, subDirectoryPath: subDirectoryPath)
         return warehouse
     }
     
-    public class func warehouseForCache() -> Warehouse {
-        let warehouse = Warehouse(directoryType: DirectoryType.Cache)
+    public class func warehouseForCache(subDirectoryPath: String?) -> Warehouse {
+        let warehouse = Warehouse(directoryType: DirectoryType.Cache, subDirectoryPath: subDirectoryPath)
         return warehouse
     }
     
-    public class func warehouseForTemporary() -> Warehouse {
-        let warehouse = Warehouse(directoryType: DirectoryType.Temporary)
+    public class func warehouseForTemporary(subDirectoryPath: String?) -> Warehouse {
+        let warehouse = Warehouse(directoryType: DirectoryType.Temporary, subDirectoryPath: subDirectoryPath)
         return warehouse
     }
     
