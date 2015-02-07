@@ -75,7 +75,7 @@ public class Warehouse: NSObject {
         super.init()
     }
     
-    public convenience init(directoryType: DirectoryType) {
+    public convenience init(directoryType: DirectoryType, subDirectoryPath: String?) {
         self.init()
         self.directoryType = directoryType
     }
