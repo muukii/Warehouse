@@ -84,6 +84,7 @@ public class Warehouse: NSObject {
     public convenience init(directoryType: DirectoryType, subDirectoryPath: String?) {
         self.init()
         self.directoryType = directoryType
+		self.subDirectoryPath = subDirectoryPath
     }
     
    public func createDirectoryIfNeeded() -> Bool{
