@@ -258,12 +258,12 @@ public class Warehouse: NSObject {
     
     public class func documentDirectoryPath() -> String {
         let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
-        return paths.first as String
+        return paths.first as! String
     }
     
     public class func cacheDirectoryPath() -> String {
         let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true)
-        return paths.first as String
+        return paths.first as! String
     }
     
     public class func translateAbsoluteToRelative(path :String?) -> String? {
