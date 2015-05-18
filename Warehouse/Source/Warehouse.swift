@@ -85,6 +85,7 @@ public class Warehouse: NSObject {
         self.init()
         self.directoryType = directoryType
 		self.subDirectoryPath = subDirectoryPath
+        self.createDirectoryIfNeeded()
     }
     
    public func createDirectoryIfNeeded() -> Bool{

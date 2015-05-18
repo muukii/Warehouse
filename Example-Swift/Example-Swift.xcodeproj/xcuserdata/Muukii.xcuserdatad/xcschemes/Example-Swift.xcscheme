@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4BEBD99B19E080AA00C2D1AF"
+               BlueprintIdentifier = "79CF6D4A19DD8B6D00D2C9BC"
                BuildableName = "Example-Swift.app"
                BlueprintName = "Example-Swift"
-               ReferencedContainer = "container:Example-Swift.xcodeproj">
+               ReferencedContainer = "container:../../ActiveRecord/Examples/Example-Swift/Example-Swift.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -75,10 +75,10 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4BEBD99B19E080AA00C2D1AF"
+            BlueprintIdentifier = "79CF6D4A19DD8B6D00D2C9BC"
             BuildableName = "Example-Swift.app"
             BlueprintName = "Example-Swift"
-            ReferencedContainer = "container:Example-Swift.xcodeproj">
+            ReferencedContainer = "container:../../ActiveRecord/Examples/Example-Swift/Example-Swift.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
