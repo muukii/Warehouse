@@ -12,6 +12,7 @@
 		4B040DFC1A863335003AC4BD /* WarehouseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B040DFB1A863335003AC4BD /* WarehouseTests.swift */; };
 		4B040E131A863655003AC4BD /* Warehouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B040E121A863655003AC4BD /* Warehouse.swift */; };
 		4B040E141A863664003AC4BD /* Warehouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B040E121A863655003AC4BD /* Warehouse.swift */; };
+		4BCB38341B1B33B0000925DB /* sample.png in Resources */ = {isa = PBXBuildFile; fileRef = 4BCB38331B1B33B0000925DB /* sample.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +33,7 @@
 		4B040DFA1A863335003AC4BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4B040DFB1A863335003AC4BD /* WarehouseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarehouseTests.swift; sourceTree = "<group>"; };
 		4B040E121A863655003AC4BD /* Warehouse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Warehouse.swift; sourceTree = "<group>"; };
+		4BCB38331B1B33B0000925DB /* sample.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sample.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 		4B040DF81A863335003AC4BD /* WarehouseTests */ = {
 			isa = PBXGroup;
 			children = (
+				4BCB38331B1B33B0000925DB /* sample.png */,
 				4B040DFB1A863335003AC4BD /* WarehouseTests.swift */,
 				4B040DF91A863335003AC4BD /* Supporting Files */,
 			);
@@ -211,6 +214,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4BCB38341B1B33B0000925DB /* sample.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

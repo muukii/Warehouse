@@ -22,7 +22,7 @@
 
 import Foundation
 
-public class Warehouse: NSObject {
+public class Warehouse {
     func WHLog(object: AnyObject?) {
         #if WAREHOUSE_DEBUG
             println(object)
@@ -76,11 +76,7 @@ public class Warehouse: NSObject {
     }
     
     private var _subDirectoryPath: String?
-    
-    public override init() {
-        super.init()
-    }
-    
+        
     public convenience init(directoryType: DirectoryType, subDirectoryPath: String?) {
         self.init()
         self.directoryType = directoryType

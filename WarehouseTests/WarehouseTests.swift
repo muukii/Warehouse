@@ -20,17 +20,10 @@ class WarehouseTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock() {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
+        
     func testSavePerformance() {
         let warehouse = Warehouse()
-        let data = NSData(contentsOfURL: NSURL(string: "https://fbcdn-sphotos-g-a.akamaihd.net/hphotos-ak-xap1/v/t1.0-9/10635872_760086720719014_7112759901763456857_n.jpg?oh=a17286d5c433502820cf148a7692ef2a&oe=54B9041F&__gda__=1417884355_5f6ee424afa59c50382017bf76a9f947")!)
+        let data = NSData(contentsOfFile: NSBundle(forClass: self.dynamicType).pathForResource("sample", ofType: "png")!)!
         self.measureBlock { () -> Void in
             warehouse.saveFileAndWait(fileName: "Test", contents: data)
             return
@@ -83,22 +76,40 @@ class WarehouseTests: XCTestCase {
         
     }
     
-    func testOpenFile() {
+    func testOpenFileForDocument() {
         let warehouse = Warehouse()
         warehouse.directoryType = .Document
         warehouse.subDirectoryPath = "/testOpenFile"
+        self.openFile(warehouse)
+    }
+    
+    func testOpenFileForTemporary() {
+        let warehouse = Warehouse()
+        warehouse.directoryType = .Temporary
+        warehouse.subDirectoryPath = "/testOpenFile"
+        self.openFile(warehouse)
+    }
+    
+    func testOpenFileForCache() {
+        let warehouse = Warehouse()
+        warehouse.directoryType = .Cache
+        warehouse.subDirectoryPath = "/testOpenFile"
+        self.openFile(warehouse)
+    }
+    
+    func openFile(warehouse: Warehouse) {
         
         let data = "Test".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)
         println("Save data size : \(data!.length)")
         
         let filePath = warehouse.saveFileAndWait(fileName: "TestFile.md", contents: data!)
-
+        
         println("Saved file path : \(filePath)")
-
+        
         XCTAssert(filePath != nil, "")
-
+        
         let openData = Warehouse.openFile(relativePath: filePath!)
-
+        
         println("Opened file : \(openData)")
         println("Opened file size : \(openData!.length)")
         
