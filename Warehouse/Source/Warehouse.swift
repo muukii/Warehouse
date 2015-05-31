@@ -23,9 +23,9 @@
 import Foundation
 
 public class Warehouse {
-    func WHLog(object: AnyObject?) {
+    func WHLog<T>(value: T) {
         #if WAREHOUSE_DEBUG
-            println(object)
+            println(T)
         #endif
     }
     
@@ -46,10 +46,8 @@ public class Warehouse {
         }
     }
     
-    public var fileManager: NSFileManager = NSFileManager.defaultManager()
-    public var directoryType: DirectoryType = DirectoryType.Temporary
-    
-    public var saveLogs = [[String:String]]()
+    public var fileManager = NSFileManager.defaultManager()
+    public var directoryType: DirectoryType = .Temporary
     
     public var subDirectoryPath: String? {
         get {
@@ -100,52 +98,45 @@ public class Warehouse {
             return false
         }
     }
-
     
     private func saveAndWait(#savePath: String, contents: NSData) -> Bool {
         
-        let createLog: (Bool -> (Void)) = { (success: Bool) -> Void in
-            // log
-            var stateString = success ? "Success" : "Failed"
-            var log = [
-                "State" : stateString,
-                "FilePath" : savePath
-            ]
-            self.saveLogs.append(log)
-        }
-
         if self.createDirectoryIfNeeded() {
             if self.fileManager.createFileAtPath(savePath, contents: contents, attributes: nil) {
                 WHLog("File create success \(savePath)")
-                createLog(true)
                 return true
             } else {
                 WHLog("File create failure \(savePath)")
-                createLog(false)
                 return false
             }
         } else {
             WHLog("Failed create directory")
-            createLog(false)
             return false
         }
     }
     
-    
-    public func saveFile(#fileName: String, contents: NSData,
-        success :((savedRelativePath: String?) -> Void)?, faiure:((error: NSError?) -> Void)?) {
+    public func saveFile(#fileName: String,
+        contents: NSData,
+        success :((savedRelativePath: String?) -> Void)?,
+        faiure:((error: NSError?) -> Void)?) {
+            
         let subDirectoryPath = self.subDirectoryPath ?? ""
         let path = self.directoryType.Path() + "\(subDirectoryPath)/" + fileName
+            
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), { () -> Void in
+                
                 let result: Bool = self.saveAndWait(savePath: path, contents: contents)
                 if result {
+                    
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        
                         let relativePath = Warehouse.translateAbsoluteToRelative(path)
                         success?(savedRelativePath: relativePath)
-                        return
                     })
                 } else {
+                    
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        
                         faiure?(error: nil)
                         return
                     })
@@ -154,17 +145,18 @@ public class Warehouse {
     }
     
     public func saveFileAndWait(#fileName: String?, contents: NSData?) -> String? {
-        if let fileName = fileName {
+        
+        if let fileName = fileName, contents = contents {
+            
             let path = self.saveDirectoryAbsolutePath() + fileName
-            if let contents = contents {
-                let result: Bool = self.saveAndWait(savePath: path, contents: contents)
-                if result {
-                    let relativePath = Warehouse.translateAbsoluteToRelative(path)
-                    return relativePath
-                } else {
-                    return nil
-                }
+            let result = self.saveAndWait(savePath: path, contents: contents)
+            
+            if result {
+                
+                let relativePath = Warehouse.translateAbsoluteToRelative(path)
+                return relativePath
             } else {
+                
                 return nil
             }
         } else {
@@ -173,13 +165,10 @@ public class Warehouse {
     }
     
     public func saveDirectoryAbsolutePath() -> String {
+        
         let subDirectoryPath = self.subDirectoryPath ?? ""
         let absolutePath = self.directoryType.Path() + "\(subDirectoryPath)/"
         return absolutePath
-    }
-    
-    public func purgeSaveLogs() {
-        self.saveLogs = [[String : String]]()
     }
     
     // MARK: - Class Methos
@@ -206,17 +195,15 @@ public class Warehouse {
     :returns:
     */
     public class func fileExistsAtPath(#relativePath: String?) -> Bool {
-        if let path = relativePath {
-            if let absolutePath = Warehouse.translateRelativeToAbsolute(path) {
-                var isDirectory: ObjCBool = false
-                var results: Bool = false
-                results = NSFileManager.defaultManager().fileExistsAtPath(absolutePath, isDirectory: &isDirectory)
-                
-                if results && !isDirectory {
-                    return true
-                } else {
-                    return false
-                }
+        
+        if let absolutePath = Warehouse.translateRelativeToAbsolute(relativePath) {
+            
+            var isDirectory: ObjCBool = false
+            var results: Bool = false
+            results = NSFileManager.defaultManager().fileExistsAtPath(absolutePath, isDirectory: &isDirectory)
+            
+            if results && !isDirectory {
+                return true
             } else {
                 return false
             }
@@ -224,22 +211,6 @@ public class Warehouse {
             return false
         }
     }
-    
-    public class func warehouseForDocument(subDirectoryPath: String?) -> Warehouse {
-        let warehouse = Warehouse(directoryType: DirectoryType.Document, subDirectoryPath: subDirectoryPath)
-        return warehouse
-    }
-    
-    public class func warehouseForCache(subDirectoryPath: String?) -> Warehouse {
-        let warehouse = Warehouse(directoryType: DirectoryType.Cache, subDirectoryPath: subDirectoryPath)
-        return warehouse
-    }
-    
-    public class func warehouseForTemporary(subDirectoryPath: String?) -> Warehouse {
-        let warehouse = Warehouse(directoryType: DirectoryType.Temporary, subDirectoryPath: subDirectoryPath)
-        return warehouse
-    }
-    
     
     public class func homeDirectoryPath() -> String {
         return NSHomeDirectory()
