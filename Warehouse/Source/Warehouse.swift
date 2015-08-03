@@ -90,7 +90,8 @@ public class Warehouse: NSObject {
    public func createDirectoryIfNeeded() -> Bool{
         let directoryPath = self.saveDirectoryAbsolutePath()
         var error: NSError?
-        if self.fileManager.createDirectoryAtPath(directoryPath, withIntermediateDirectories: true, attributes: nil, error: &error) {
+        do {
+            try self.fileManager.createDirectoryAtPath(directoryPath, withIntermediateDirectories: true, attributes: nil)
             if error == nil {
                 WHLog("Create Directory Success \(directoryPath)")
                 return true
@@ -98,19 +99,20 @@ public class Warehouse: NSObject {
                 WHLog("Create Directory Failed \(directoryPath)")
                 return false
             }
-        } else {
+        } catch let error1 as NSError {
+            error = error1
             WHLog("Create Directory Failed \(directoryPath)")
             return false
         }
     }
 
     
-    private func saveAndWait(#savePath: String, contents: NSData) -> Bool {
+    private func saveAndWait(savePath savePath: String, contents: NSData) -> Bool {
         
         let createLog: (Bool -> (Void)) = { (success: Bool) -> Void in
             // log
-            var stateString = success ? "Success" : "Failed"
-            var log = [
+            let stateString = success ? "Success" : "Failed"
+            let log = [
                 "State" : stateString,
                 "FilePath" : savePath
             ]
@@ -135,7 +137,7 @@ public class Warehouse: NSObject {
     }
     
     
-    public func saveFile(#fileName: String, contents: NSData,
+    public func saveFile(fileName fileName: String, contents: NSData,
         success :((savedRelativePath: String?) -> Void)?, faiure:((error: NSError?) -> Void)?) {
         let subDirectoryPath = self.subDirectoryPath ?? ""
         let path = self.directoryType.Path() + "\(subDirectoryPath)/" + fileName
@@ -156,7 +158,7 @@ public class Warehouse: NSObject {
             })
     }
     
-    public func saveFileAndWait(#fileName: String?, contents: NSData?) -> String? {
+    public func saveFileAndWait(fileName fileName: String?, contents: NSData?) -> String? {
         if let fileName = fileName {
             let path = self.saveDirectoryAbsolutePath() + fileName
             if let contents = contents {
@@ -187,7 +189,7 @@ public class Warehouse: NSObject {
     
     // MARK: - Class Methos
     
-    public class func openFile(#relativePath: String?) -> NSData? {
+    public class func openFile(relativePath relativePath: String?) -> NSData? {
         
         if let path = relativePath {
             if let absolutePath = Warehouse.translateRelativeToAbsolute(path) {
@@ -204,11 +206,11 @@ public class Warehouse: NSObject {
     /**
     File Exists (directory is false)
     
-    :param: relativePath
+    - parameter relativePath:
     
-    :returns:
+    - returns:
     */
-    public class func fileExistsAtPath(#relativePath: String?) -> Bool {
+    public class func fileExistsAtPath(relativePath relativePath: String?) -> Bool {
         if let path = relativePath {
             if let absolutePath = Warehouse.translateRelativeToAbsolute(path) {
                 var isDirectory: ObjCBool = false
@@ -258,18 +260,18 @@ public class Warehouse: NSObject {
     
     public class func documentDirectoryPath() -> String {
         let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
-        return paths.first as! String
+        return paths.first!
     }
     
     public class func cacheDirectoryPath() -> String {
         let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true)
-        return paths.first as! String
+        return paths.first!
     }
     
     public class func translateAbsoluteToRelative(path :String?) -> String? {
         if let path = path {
             if path.hasPrefix(self.homeDirectoryPath()) {
-                return path.stringByReplacingOccurrencesOfString(self.homeDirectoryPath(), withString: "", options: nil, range: nil)
+                return path.stringByReplacingOccurrencesOfString(self.homeDirectoryPath(), withString: "", options: [], range: nil)
             } else {
                 return path
             }
