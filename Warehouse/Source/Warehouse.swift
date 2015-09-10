@@ -25,7 +25,7 @@ import Foundation
 public class Warehouse: NSObject {
     func WHLog(object: AnyObject?) {
         #if WAREHOUSE_DEBUG
-            println(object)
+            print(object)
         #endif
     }
     
