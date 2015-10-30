@@ -39,25 +39,25 @@ class WarehouseTests: XCTestCase {
     
     func testDocumentDirectoryPath() {
        let path = Warehouse.documentDirectoryPath()
-        println("DocumentDirectoryPath : \(path)")
+        print("DocumentDirectoryPath : \(path)")
         XCTAssert(path.hasSuffix("Documents"), "")
     }
     
     func testCacheDirectoryPath() {
         let path = Warehouse.cacheDirectoryPath()
-        println("CacheDirectoryPath : \(path)")
+        print("CacheDirectoryPath : \(path)")
         XCTAssert(path.hasSuffix("Caches"), "")
     }
     
     func testRootDirectoryPath() {
         let path = Warehouse.homeDirectoryPath()
-        println(path)
+        print(path)
     }
     
     func testTranslateAbsoluteToRelative() {
         let path = Warehouse.translateAbsoluteToRelative(Warehouse.documentDirectoryPath())
         XCTAssert((path == "/Documents"), "")
-        println(path)
+        print(path)
     }
     
     func testTranslateRelativeToAbsolute() {
@@ -89,18 +89,18 @@ class WarehouseTests: XCTestCase {
         warehouse.subDirectoryPath = "/testOpenFile"
         
         let data = "Test".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)
-        println("Save data size : \(data!.length)")
+        print("Save data size : \(data!.length)")
         
         let filePath = warehouse.saveFileAndWait(fileName: "TestFile.md", contents: data!)
 
-        println("Saved file path : \(filePath)")
+        print("Saved file path : \(filePath)")
 
         XCTAssert(filePath != nil, "")
 
         let openData = Warehouse.openFile(relativePath: filePath!)
 
-        println("Opened file : \(openData)")
-        println("Opened file size : \(openData!.length)")
+        print("Opened file : \(openData)")
+        print("Opened file size : \(openData!.length)")
         
         XCTAssert(openData != nil, "")
         XCTAssert(openData == data, "")
@@ -113,18 +113,18 @@ class WarehouseTests: XCTestCase {
         warehouse.subDirectoryPath = "/testOpenFile"
         
         let firstData = "TestString".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)
-        println("Save data size : \(firstData!.length)")
+        print("Save data size : \(firstData!.length)")
         
         let firstFilePath = warehouse.saveFileAndWait(fileName: "TestFile.md", contents: firstData!)
         
-        println("Saved file path : \(firstFilePath)")
+        print("Saved file path : \(firstFilePath)")
         
         XCTAssert(firstFilePath != nil, "")
         
         let firstOpenData = Warehouse.openFile(relativePath: firstFilePath!)
         
-        println("Opened file : \(firstOpenData)")
-        println("Opened file size : \(firstOpenData!.length)")
+        print("Opened file : \(firstOpenData)")
+        print("Opened file size : \(firstOpenData!.length)")
         
         XCTAssert(firstOpenData != nil, "")
         XCTAssert(firstOpenData == firstData, "")
@@ -133,18 +133,18 @@ class WarehouseTests: XCTestCase {
         // OverWrite
         
         let secondData = "TestStringString".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)
-        println("Save data size : \(secondData!.length)")
+        print("Save data size : \(secondData!.length)")
         
         let secondFilePath = warehouse.saveFileAndWait(fileName: "TestFile.md", contents: secondData!)
         
-        println("Saved file path : \(secondFilePath)")
+        print("Saved file path : \(secondFilePath)")
         
         XCTAssert(secondFilePath != nil, "")
         
         let secondOpenData = Warehouse.openFile(relativePath: secondFilePath!)
         
-        println("Opened file : \(secondOpenData)")
-        println("Opened file size : \(secondOpenData!.length)")
+        print("Opened file : \(secondOpenData)")
+        print("Opened file size : \(secondOpenData!.length)")
         
         XCTAssert(secondOpenData != nil, "")
         XCTAssert(secondOpenData == secondData, "")
@@ -157,5 +157,31 @@ class WarehouseTests: XCTestCase {
         */
         XCTAssert(Warehouse.fileExistsAtPath(relativePath: secondFilePath), "")
         
+    }
+    
+    func testRemoveSubdirectory() {
+        let warehouse = Warehouse()
+        warehouse.directoryType = .Document
+        warehouse.subDirectoryPath = "/testDirectory"
+        
+        var paths: [String] = []
+        for i in 0...100 {
+            let firstData = "TestString".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)
+            print("Save data size : \(firstData!.length)")
+        
+            let firstFilePath = warehouse.saveFileAndWait(fileName: "TestFile\(i).md", contents: firstData!)
+            if let path = firstFilePath {
+                paths.append(path)
+            }
+            print("Saved file path : \(firstFilePath)")
+            XCTAssert(firstFilePath != nil, "")
+        }
+        
+        try! warehouse.removeSubdirectory()
+        
+        paths.forEach { path in
+            
+            XCTAssert(Warehouse.fileExistsAtPath(relativePath: path) == false, "")
+        }
     }
 }

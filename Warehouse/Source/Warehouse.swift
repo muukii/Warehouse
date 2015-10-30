@@ -171,6 +171,10 @@ public class Warehouse: NSObject {
         }
     }
     
+    public func removeSubdirectory() throws {
+        try self.fileManager.removeItemAtPath(self.saveDirectoryAbsolutePath())
+    }
+    
     public func saveDirectoryAbsolutePath() -> String {
         let subDirectoryPath = self.subDirectoryPath ?? ""
         let absolutePath = self.directoryType.Path() + "\(subDirectoryPath)/"
